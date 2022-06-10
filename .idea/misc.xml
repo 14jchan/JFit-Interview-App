@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.124" />
         <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/layout/activity_business.xml" value="0.23505434782608695" />
+        <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/layout/activity_business_details.xml" value="0.23505434782608695" />
         <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/layout/activity_home.xml" value="0.23505434782608695" />
         <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/layout/loading_dialogue.xml" value="0.23505434782608695" />
+        <entry key="..\:/Users/Jason Chan/Desktop/JFitSampleApplication/app/src/main/res/layout/recyclerviewcard_store.xml" value="0.2" />
       </map>
     </option>
   </component>

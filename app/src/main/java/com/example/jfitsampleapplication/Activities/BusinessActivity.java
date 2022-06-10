@@ -1,27 +1,53 @@
 package com.example.jfitsampleapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.jfitsampleapplication.Depedencies.JSONReader;
 import com.example.jfitsampleapplication.Depedencies.Properties;
 import com.example.jfitsampleapplication.Depedencies.RESTGetCaller;
 import com.example.jfitsampleapplication.Dialogues.LoadingDialogue;
+import com.example.jfitsampleapplication.Objects.Store;
 import com.example.jfitsampleapplication.R;
+import com.example.jfitsampleapplication.RecyclerAdapters.StoreRecyclerAdapter;
 
-public class BusinessActivity extends AppCompatActivity {
+import java.util.LinkedList;
+import java.util.List;
 
+public class BusinessActivity extends AppCompatActivity implements StoreRecyclerAdapter.OnStoreListener {
+
+    private RecyclerView storeRecyclerView;
     private static String location, APIResponse;
+    private Button backButton;
     private LoadingDialogue loadingDialogue;
+    public static List<Store> storeList;
 
     //initialization and verifies that a location has been passed through, then starts API Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
+        storeList =new LinkedList<>();
+
+        backButton = findViewById(R.id.backButton);
+        storeRecyclerView = findViewById(R.id.storeRecyclerView);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BusinessActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Intent i = getIntent();
         location = i.getStringExtra("TargetCity");
@@ -40,16 +66,40 @@ public class BusinessActivity extends AppCompatActivity {
         newRequest.execute();
     }
 
-    //recieves the api response from multithread and dismisses the loading dialogue
+    //recieves the api response from multithread and dismisses the loading dialogue, stores store data in static class var.
     public void APIInterception(String response){
         APIResponse = response;
         loadingDialogue.dismissDialog();
         if(response == null){
-            Log.d("API Response:" , "its null");
+            Intent intent = new Intent(BusinessActivity.this, HomeActivity.class);
+            intent.putExtra("ToastMessage", "Internet Connection Unavailable.");
+            startActivity(intent);
         }else{
-            Log.d("API Response:" , APIResponse);
+            try {
+                storeList = JSONReader.JSONtoStoreList(APIResponse);
+                setRecyclerAdapter();
+            }catch (Exception e){
+                Intent intent = new Intent(BusinessActivity.this, HomeActivity.class);
+                intent.putExtra("ToastMessage", "Malformed Server Response.");
+                startActivity(intent);
+            }
         }
     }
 
+    private void setRecyclerAdapter(){
+        StoreRecyclerAdapter storeRecyclerAdapter = new StoreRecyclerAdapter(storeList, this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        storeRecyclerView.setLayoutManager(layoutManager);
+        storeRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        storeRecyclerView.setAdapter(storeRecyclerAdapter);
+    }
 
+
+    @Override
+    public void onStoreClick(int position) {
+        Intent intent = new Intent(this, BusinessDetailsActivity.class);
+        intent.putExtra("StoreListPosition", position);
+        startActivity(intent);
+
+    }
 }

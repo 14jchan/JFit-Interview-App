@@ -7,7 +7,25 @@
     android:background="@drawable/business_activity_background"
     android:backgroundTint="#74CACACA"
     android:backgroundTintMode="multiply"
-    tools:context=".Activities.BusinessActivity"
-    android:theme="@style/Theme.AppCompat.NoActionBar">
+    tools:context=".Activities.BusinessActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/storeRecyclerView"
+        android:layout_width="411dp"
+        android:layout_height="656dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Another City"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/storeRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
