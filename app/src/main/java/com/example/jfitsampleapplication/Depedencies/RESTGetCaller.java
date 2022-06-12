@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.example.jfitsampleapplication.Activities.BusinessActivity;
+import com.example.jfitsampleapplication.Activities.BusinessDetailsActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -71,6 +72,9 @@ public class RESTGetCaller extends AsyncTask<String, String, String> {
                 BusinessActivity businessActivity = (BusinessActivity) activity;
                 businessActivity.getAPIResponse(result);
                 break;
+            case 2:
+                BusinessDetailsActivity businessDetailsActivity = (BusinessDetailsActivity) activity;
+                businessDetailsActivity.getAPIResponse(result);
             default:
                 break;
         }

@@ -1,5 +1,8 @@
 package com.example.jfitsampleapplication.Objects;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +12,7 @@ public class Store {
     private List<String> categories;
     private List<Review> reviews;
     private double rating;
+    private Drawable storeLogo;
 
     public Store(){};
 
@@ -33,7 +37,7 @@ public class Store {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = formatAddress(address);
     }
 
     public String getImageURL() {
@@ -66,6 +70,23 @@ public class Store {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public Drawable getStoreLogo() {
+        return storeLogo;
+    }
+
+    public void setStoreLogo(Drawable storeLogo) {
+        this.storeLogo = storeLogo;
+    }
+
+    private String formatAddress(String address){
+        String formatted = "";
+        while(!address.isEmpty()){
+            formatted = formatted + address.substring(0,Math.min(address.length(), 20)) + "\n";
+            address = address.substring(Math.min(20, address.length()));
+        }
+        return formatted;
     }
 
 

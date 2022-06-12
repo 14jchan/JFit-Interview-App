@@ -19,6 +19,8 @@
             android:id="@+id/businessActivityNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:gravity="center"
             android:text="Business Name"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -117,7 +119,7 @@
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="36dp"
             android:text="Testamonials"
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -127,7 +129,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/businessActivityTestamonial1TextView"
+            android:id="@+id/businessActivityTestamonialsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -137,30 +139,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/businessActivityTestamonial2TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="-Quote2-"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessActivityTestamonial1TextView"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/businessActivityTestamonial3TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="-Quote3-"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessActivityTestamonial2TextView"
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
@@ -173,20 +151,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.060000002"
             app:srcCompat="@drawable/like_blank" />
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="200dp"
             android:text="Like This Business"
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessActivityTestamonial3TextView"
+            app:layout_constraintTop_toTopOf="@+id/businessActivityTestamonialsTextView"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button

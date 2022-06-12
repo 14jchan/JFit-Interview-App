@@ -2,27 +2,30 @@ package com.example.jfitsampleapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jfitsampleapplication.Depedencies.ImageURLParser;
 import com.example.jfitsampleapplication.Depedencies.JSONReader;
 import com.example.jfitsampleapplication.Depedencies.Properties;
 import com.example.jfitsampleapplication.Depedencies.RESTGetCaller;
 import com.example.jfitsampleapplication.Dialogues.LoadingDialogue;
+import com.example.jfitsampleapplication.Objects.Review;
 import com.example.jfitsampleapplication.Objects.Store;
 import com.example.jfitsampleapplication.R;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class BusinessDetailsActivity extends AppCompatActivity {
 
-    private TextView businessNameTextView, businessRatingTextView, businessAddressTextView, businessCategoriesTextView, businessQuote1TextView, businessQuote2TextView,businessQuote3TextView;
+    private TextView businessNameTextView, businessRatingTextView, businessAddressTextView, businessCategoriesTextView, businessQuoteTextView;
     private ImageButton likeButton;
     private ImageView businessLogoImage;
     private LoadingDialogue loadingDialogue;
@@ -43,13 +46,11 @@ public class BusinessDetailsActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        businessNameTextView = findViewById(R.id.businessActivityAddressTextView);
+        businessNameTextView = findViewById(R.id.businessActivityNameTextView);
         businessRatingTextView = findViewById(R.id.businessActivityRatingTextView);
         businessAddressTextView = findViewById(R.id.businessActivityAddressTextView);
         businessCategoriesTextView = findViewById(R.id.businessActivityCategoriesTextView);
-        businessQuote1TextView = findViewById(R.id.businessActivityTestamonial1TextView);
-        businessQuote2TextView = findViewById(R.id.businessActivityTestamonial2TextView);
-        businessQuote3TextView = findViewById(R.id.businessActivityTestamonial3TextView);
+        businessQuoteTextView = findViewById(R.id.businessActivityTestamonialsTextView);
         likeButton = findViewById(R.id.businessActivityLikeImageButton);
         businessLogoImage = findViewById(R.id.businessActivityLogoImageView);
         backButton = findViewById(R.id.businessActivityBackButton);
@@ -84,22 +85,48 @@ public class BusinessDetailsActivity extends AppCompatActivity {
     public void getAPIData(){
         loadingDialogue.startLoadingDialogue();
         RESTGetCaller newRequest = new RESTGetCaller("https://api.yelp.com/v3/businesses/" + store.getStoreID() +"/reviews", 2, BusinessDetailsActivity.this, Properties.YELP_API_TOKEN);
+        newRequest.execute();
     }
 
     public void getAPIResponse(String response){
-        loadingDialogue.dismissDialog();
         if(response == null){
+            loadingDialogue.dismissDialog();
             Intent intent = new Intent(BusinessDetailsActivity.this, HomeActivity.class);
             intent.putExtra("ToastMessage", "Internet Connection Unavailable.");
             startActivity(intent);
         }else {
             try {
-                store.setReviews(JSONReader.getReviewsFromJSON(response));
+                List<Review> listOfReviews = JSONReader.getReviewsFromJSON(response);
+                store.setReviews(listOfReviews);
+                setStoreQuotes();
+                ImageURLParser imageParseRequest = new ImageURLParser(BusinessDetailsActivity.this, store.getImageURL(), 1);
+                imageParseRequest.execute();
             } catch (Exception e) {
+                loadingDialogue.dismissDialog();
                 Intent intent = new Intent(BusinessDetailsActivity.this, HomeActivity.class);
                 intent.putExtra("ToastMessage", "Malformed Server Response.");
                 startActivity(intent);
             }
         }
+    }
+
+    public void setStoreLogo(Drawable drawable){
+        loadingDialogue.dismissDialog();
+        if(drawable != null){
+            store.setStoreLogo(drawable);
+        }
+    }
+
+    public void setStoreQuotes(){
+        String reviewText = "";
+        Log.d("review", "Size of review list: " + store.getReviews().size());
+        for(Review review : store.getReviews()){
+            if(review.getReview().length() > 50){
+                reviewText = reviewText + review.getReview().substring(0,53) + "\n" + review.getReview().substring(54, Math.min(100, review.getReview().length()-1))  + "...\n-" + review.getReviewer() + " " + review.getDate() + "\n\n";
+            }else {
+                reviewText = reviewText + review.getReview() + "...\n-" + review.getReviewer() + " " + review.getDate() + "\n\n";
+            }
+        }
+        businessQuoteTextView.setText(reviewText);
     }
 }

@@ -30,8 +30,18 @@ public class JSONReader {
             store.setRating(storeObject.getDouble("rating"));
 
             JSONObject locationObject = storeObject.getJSONObject("location");
-            String totalAddress = locationObject.getString("address1") + " " + locationObject.getString("address2") + " " + locationObject.getString("city") + " " + locationObject.getString("state") + " " + locationObject.getString("zip_code");
-            store.setAddress(totalAddress);
+            String address1 = locationObject.getString("address1");
+            String address2 = locationObject.getString("address2");
+            String addressCity = locationObject.getString("city");
+            String addressState = locationObject.getString("state");
+            String addressZip = locationObject.getString("zip_code");
+            String totalAddress;
+            if(address2.isEmpty() || address2 == null){
+                totalAddress = address1 + " " + addressCity + ", " + addressState + " " + addressZip;
+            }else{
+                totalAddress = address1 + " " + address2 + " " + addressCity + ", " + addressState + " " + addressZip;
+            }
+            store.setAddress(totalAddress.replace(" null ", " "));
 
             JSONArray categoryArray = storeObject.getJSONArray("categories");
             List<String> categoryList = new LinkedList<>();
@@ -55,13 +65,13 @@ public class JSONReader {
         for(int i = 0; i < Math.min(reviewsArrays.length(), 3); i++){
             JSONObject reviewJSON = reviewsArrays.getJSONObject(i);
             Review review = new Review();
-            review.setReview(reviewJSON.getString("text"));
+            review.setReview(reviewJSON.getString("text").replace("\n"," ").replace("\t"," "));
             review.setDate(reviewJSON.getString("time_created"));
             review.setRating(reviewJSON.getDouble("rating"));
 
             JSONObject reviewUser = reviewJSON.getJSONObject("user");
             review.setReviewer(reviewUser.getString("name"));
-
+            reviews.add(review);
         }
 
 
