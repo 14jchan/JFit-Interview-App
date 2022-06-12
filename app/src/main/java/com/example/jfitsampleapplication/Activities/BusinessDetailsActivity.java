@@ -2,6 +2,7 @@ package com.example.jfitsampleapplication.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jfitsampleapplication.Depedencies.DBController;
 import com.example.jfitsampleapplication.Depedencies.ImageURLParser;
 import com.example.jfitsampleapplication.Depedencies.JSONReader;
 import com.example.jfitsampleapplication.Depedencies.Properties;
@@ -31,6 +32,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
     private LoadingDialogue loadingDialogue;
     private Button backButton;
     private Store store;
+    private DBController dbController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +57,50 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         businessLogoImage = findViewById(R.id.businessActivityLogoImageView);
         backButton = findViewById(R.id.businessActivityBackButton);
         loadingDialogue = new LoadingDialogue(BusinessDetailsActivity.this);
+        dbController = new DBController(this);
+        setLikeButtonImage();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BusinessDetailsActivity.this, BusinessActivity.class);
-                intent.putExtra("refreshPage", false);
-                startActivity(intent);
+                backToBusinessActivity();
             }
         });
 
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleLikeButton();
+            }
+        });
         setActivityData();
+    }
+
+    private void setLikeButtonImage(){
+        boolean isLiked = dbController.getLike(store.getStoreID());
+        if(!isLiked){
+            likeButton.setImageDrawable(getResources().getDrawable(R.drawable.like_blank));
+        }else{
+            likeButton.setImageDrawable(getResources().getDrawable(R.drawable.like_filled));
+        }
+    }
+
+    private void toggleLikeButton(){
+        boolean isLiked = dbController.getLike(store.getStoreID());
+        if(!isLiked){
+            likeButton.setImageDrawable(getResources().getDrawable(R.drawable.like_filled));
+            dbController.likeStore(store.getStoreID());
+        }else{
+            likeButton.setImageDrawable(getResources().getDrawable(R.drawable.like_blank));
+            dbController.dislikeStore(store.getStoreID());
+        }
+
+    }
+
+    private void backToBusinessActivity(){
+        Intent intent = new Intent(BusinessDetailsActivity.this, BusinessActivity.class);
+        intent.putExtra("refreshPage", false);
+        startActivity(intent);
     }
 
     private void setActivityData(){
@@ -114,17 +149,17 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         loadingDialogue.dismissDialog();
         if(drawable != null){
             store.setStoreLogo(drawable);
+            businessLogoImage.setImageDrawable(drawable);
         }
     }
 
     public void setStoreQuotes(){
         String reviewText = "";
-        Log.d("review", "Size of review list: " + store.getReviews().size());
         for(Review review : store.getReviews()){
             if(review.getReview().length() > 50){
-                reviewText = reviewText + review.getReview().substring(0,53) + "\n" + review.getReview().substring(54, Math.min(100, review.getReview().length()-1))  + "...\n-" + review.getReviewer() + " " + review.getDate() + "\n\n";
+                reviewText = reviewText + review.getReview().substring(0,53) + "\n" + review.getReview().substring(54, Math.min(100, review.getReview().length()))  + "...\n-" + review.getReviewer() + " " + review.getDate() + " (" + review.getRating() + "/5.0)" + "\n\n";
             }else {
-                reviewText = reviewText + review.getReview() + "...\n-" + review.getReviewer() + " " + review.getDate() + "\n\n";
+                reviewText = reviewText + review.getReview() + "...\n-" + review.getReviewer() + " " + review.getDate() + " (" + review.getRating() + "/5.0)" + "\n\n";
             }
         }
         businessQuoteTextView.setText(reviewText);
