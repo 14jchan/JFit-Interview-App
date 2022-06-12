@@ -16,7 +16,7 @@
         android:theme="@style/Theme.JFitSampleApplication.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".BusinessDetailsActivity"
+            android:name=".Activities.BusinessDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.BusinessActivity"

@@ -1,10 +1,13 @@
 package com.example.jfitsampleapplication.Objects;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Store {
+
     private String storeID,storeName, address, imageURL;
-    private List<String> categories, reviews;
+    private List<String> categories;
+    private List<Review> reviews;
     private double rating;
 
     public Store(){};
@@ -49,11 +52,11 @@ public class Store {
         this.categories = categories;
     }
 
-    public List<String> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<String> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 

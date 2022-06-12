@@ -69,7 +69,7 @@ public class RESTGetCaller extends AsyncTask<String, String, String> {
         switch (returnType){
             case 1:
                 BusinessActivity businessActivity = (BusinessActivity) activity;
-                businessActivity.APIInterception(result);
+                businessActivity.getAPIResponse(result);
                 break;
             default:
                 break;

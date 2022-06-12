@@ -29,6 +29,7 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
     private static String location, APIResponse;
     private Button backButton;
     private LoadingDialogue loadingDialogue;
+    private boolean refreshPage;
     public static List<Store> storeList;
 
     //initialization and verifies that a location has been passed through, then starts API Call
@@ -36,10 +37,12 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
-        storeList =new LinkedList<>();
 
         backButton = findViewById(R.id.backButton);
         storeRecyclerView = findViewById(R.id.storeRecyclerView);
+        if(storeList == null){
+            storeList = new LinkedList<>();
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,13 +53,20 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
         });
 
         Intent i = getIntent();
+        refreshPage = i.getBooleanExtra("refreshPage", true);
         location = i.getStringExtra("TargetCity");
-        if(location == null || location.isEmpty()){
+        if((location == null || location.isEmpty()) && refreshPage){
             i = new Intent(this, HomeActivity.class);
             startActivity(i);
         }
         loadingDialogue = new LoadingDialogue(BusinessActivity.this);
-        startAPICall(location);
+        if(refreshPage) {
+            i.putExtra("refreshPage", true);
+            startAPICall(location);
+        }else{
+            Log.d("storeListSize" , Integer.toString(storeList.size()));
+            setRecyclerAdapter();
+        }
     }
 
     //locks screen with loading dialogue + calls API
@@ -67,7 +77,7 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
     }
 
     //recieves the api response from multithread and dismisses the loading dialogue, stores store data in static class var.
-    public void APIInterception(String response){
+    public void getAPIResponse(String response){
         APIResponse = response;
         loadingDialogue.dismissDialog();
         if(response == null){
@@ -97,9 +107,8 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
 
     @Override
     public void onStoreClick(int position) {
-        Intent intent = new Intent(this, BusinessDetailsActivity.class);
+        Intent intent = new Intent(BusinessActivity.this, BusinessDetailsActivity.class);
         intent.putExtra("StoreListPosition", position);
         startActivity(intent);
-
     }
 }
