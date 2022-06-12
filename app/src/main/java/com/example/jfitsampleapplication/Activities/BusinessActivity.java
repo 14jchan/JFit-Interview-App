@@ -32,15 +32,12 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
     private LoadingDialogue loadingDialogue;
     private boolean refreshPage;
     public static List<Store> storeList;
-    private DBController dbController;
 
     //initialization and verifies that a location has been passed through, then starts API Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
-
-        dbController = new DBController(this);
 
         backButton = findViewById(R.id.backButton);
         storeRecyclerView = findViewById(R.id.storeRecyclerView);

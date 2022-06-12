@@ -21,7 +21,7 @@ public class DBController extends SQLiteOpenHelper {
 
     }
 
-    public boolean resultToTF(long result){
+    private boolean resultToTF(long result){
         if(result == -1)
             return false;
         return true;

@@ -1,13 +1,19 @@
 package com.example.jfitsampleapplication.RecyclerAdapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jfitsampleapplication.Activities.BusinessActivity;
+import com.example.jfitsampleapplication.Activities.HomeActivity;
+import com.example.jfitsampleapplication.Depedencies.DBController;
 import com.example.jfitsampleapplication.Objects.Store;
 import com.example.jfitsampleapplication.R;
 
@@ -42,19 +48,46 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
 
     public class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView businessNameTextView;
+        private ImageButton likeButton;
         private OnStoreListener onStoreListener;
+        private DBController dbController;
+        private Store store;
 
-        public ViewHolder(final View view, OnStoreListener onStoreListener){
+        public ViewHolder(final View view, OnStoreListener onStoreListener, Context context){
             super(view);
             businessNameTextView = view.findViewById(R.id.businessNameTextView);
+            likeButton = view.findViewById(R.id.businessActivityLikeImageButton);
             this.onStoreListener = onStoreListener;
-
+            dbController = new DBController(context);
             itemView.setOnClickListener(this);
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleLikeButton();
+                }
+            });
+        }
+
+        public void setStore(Store store) {
+            this.store = store;
         }
 
         @Override
         public void onClick(View view) {
             onStoreListener.onStoreClick(getAdapterPosition());
+        }
+
+        private void toggleLikeButton(){
+            boolean isLiked = dbController.getLike(store.getStoreID());
+            if(!isLiked){
+                likeButton.setImageDrawable(itemView.getContext().getResources().getDrawable(R.drawable.like_filled));
+                dbController.likeStore(store.getStoreID());
+            }else{
+                likeButton.setImageDrawable(itemView.getContext().getResources().getDrawable(R.drawable.like_blank));
+                dbController.dislikeStore(store.getStoreID());
+            }
+
         }
     }
 
@@ -66,13 +99,19 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerviewcard_store, parent, false);
-        return new ViewHolder(itemView, onStoreListener);
+        return new ViewHolder(itemView, onStoreListener, parent.getContext());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String businessName = storeList.get(position).getStoreName();
+        holder.setStore(storeList.get(position));
         holder.businessNameTextView.setText(businessName);
+        if(holder.dbController.getLike(storeList.get(position).getStoreID())){
+            holder.likeButton.setImageDrawable(holder.itemView.getContext().getDrawable(R.drawable.like_filled));
+        }else{
+            holder.likeButton.setImageDrawable(holder.itemView.getContext().getDrawable(R.drawable.like_blank));
+        }
     }
 
     @Override
