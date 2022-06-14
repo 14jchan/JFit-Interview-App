@@ -6,6 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/*
+@author Jason Chan
+
+DB Controller that is in charge of basic commands used by the activities. Holds the following capabilities:
+
+*Initiates and sets up DB startup/update
+*Stores/deletes/checks existance of a liked store in the DB
+
+ */
+
 public class DBController extends SQLiteOpenHelper {
     public DBController(Context context){
         super(context,"Userdata.db", null, 1);

@@ -9,6 +9,15 @@ import com.example.jfitsampleapplication.Activities.BusinessDetailsActivity;
 import java.io.InputStream;
 import java.net.URL;
 
+/*
+@author Jason Chan
+
+Asyncronous task that grabs an image given a URL and return as bitmap to an activity. Holds the following capabilities:
+
+*Multithreaded request for Image Grabbing
+*Callback to activity method with bitmap of image
+ */
+
 public class ImageURLParser extends AsyncTask<Drawable, Drawable, Drawable> {
     private Activity activity;
     private String imageURL;

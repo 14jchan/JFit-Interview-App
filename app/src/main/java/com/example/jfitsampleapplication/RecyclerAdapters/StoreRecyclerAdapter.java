@@ -20,6 +20,17 @@ import com.example.jfitsampleapplication.R;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/*
+@author Jason Chan
+
+Recyclerview to hold all store data as a list on the BusinessActivity.class. Holds the following capabilities:
+
+*Holds and displays as a recyclerview of all stores parsed through BusinessActivity.class
+*Allows for direct DB like and dislikes of stores, parses DB for existing likes and dislikes and matches them with the current store list
+*Returns the adapter position of the store that was selected(clicked)
+ */
+
 public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdapter.ViewHolder> {
 
     private static List<Store> storeList = new LinkedList<>();

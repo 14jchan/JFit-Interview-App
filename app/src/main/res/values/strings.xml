@@ -9,4 +9,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="yelp_api_token">e3oN4pLi0jPYxJn-3o8tzNAkByM_6WhA1nDJ5P7B0iXsePxjF-oxxl_VblBTPxAXBa0fre3GW0oupY5G19lnOdJkVTRPpKoLjVOxb-TCjxjtQGl2KNOhQ0LK4D6iYnYx</string>
 </resources>

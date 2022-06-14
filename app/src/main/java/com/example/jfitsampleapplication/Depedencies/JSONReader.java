@@ -11,9 +11,16 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+@author Jason Chan
+
+Parses and returns relevant data in custom store/review formats. Holds the following capabilities:
+
+*Conversion of YELP JSON data to a store list
+*Conversion of YELP JSON data to reviews of a specific store
+ */
+
 public class JSONReader {
-
-
 
     public static List<Store> JSONtoStoreList(String JSON) throws Exception{
         List<Store> storeList = new LinkedList<>();

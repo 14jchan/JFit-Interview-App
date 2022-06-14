@@ -10,6 +10,18 @@ import android.widget.Toast;
 
 import com.example.jfitsampleapplication.R;
 
+/*
+@author Jason Chan
+
+Tertiary Activity that holds the store lists and displays it in a recycler view. Holds the following requirements:
+
+*Display the business details.
+*Each business will show the name, rating, address information, and category information.
+*Displays a thumbnail image of the restaurant.
+*Implements a like feature allowing the user to like a business (stores business ID in DB)
+*Display up to three review excerpts related to the business.
+*Provide a back button to return to the previous screen.
+ */
 public class HomeActivity extends AppCompatActivity {
 
     Button locationOneButton, locationTwoButton, locationThreeButton, locationFourButton, locationFiveButton;

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.jfitsampleapplication.Depedencies.DBController;
 import com.example.jfitsampleapplication.Depedencies.ImageURLParser;
 import com.example.jfitsampleapplication.Depedencies.JSONReader;
-import com.example.jfitsampleapplication.Depedencies.Properties;
 import com.example.jfitsampleapplication.Depedencies.RESTGetCaller;
 import com.example.jfitsampleapplication.Dialogues.LoadingDialogue;
 import com.example.jfitsampleapplication.Objects.Review;
@@ -15,7 +14,6 @@ import com.example.jfitsampleapplication.R;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,6 +22,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+
+/*
+@author Jason Chan
+
+Secondary Activity that holds the store lists and displays it in a recycler view. Holds the following requirements:
+
+*Display at most 10 businesses in the city the user clicked on, display the business name.
+*Indicate whether this business has been liked or not
+*Clicking on a business will load the third screen.
+*Provide a back button to return to the home screen.
+ */
 public class BusinessDetailsActivity extends AppCompatActivity {
 
     private TextView businessNameTextView, businessRatingTextView, businessAddressTextView, businessCategoriesTextView, businessQuoteTextView;
@@ -119,7 +128,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
 
     public void getAPIData(){
         loadingDialogue.startLoadingDialogue();
-        RESTGetCaller newRequest = new RESTGetCaller("https://api.yelp.com/v3/businesses/" + store.getStoreID() +"/reviews", 2, BusinessDetailsActivity.this, Properties.YELP_API_TOKEN);
+        RESTGetCaller newRequest = new RESTGetCaller("https://api.yelp.com/v3/businesses/" + store.getStoreID() +"/reviews", 2, BusinessDetailsActivity.this, getString(R.string.yelp_api_token));
         newRequest.execute();
     }
 

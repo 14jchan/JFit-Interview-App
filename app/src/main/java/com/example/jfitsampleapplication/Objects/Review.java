@@ -1,5 +1,14 @@
 package com.example.jfitsampleapplication.Objects;
 
+/*
+@author Jason Chan
+
+Custom object to hold review data of a store. Holds the following capabilities:
+
+*Holds the review text, reviewer name, date of review, as well as the rating given to the review
+*Allows for the getting and setting of all above variables
+ */
+
 public class Review {
     private String review, reviewer, date;
     private Double rating;

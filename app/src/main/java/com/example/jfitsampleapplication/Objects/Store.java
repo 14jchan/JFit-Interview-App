@@ -6,6 +6,19 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+@author Jason Chan
+
+Custom object to hold store data of any given store. Holds the following capabilities:
+
+*Holds the YELP store ID of a target store, store name, address, and logo image. Image may be also stored as a DRAWABLE given processing with the ImageURLParser.class
+*Holds List of categories that fit within the store
+*Holds List of Review.class data types of reviews given to the store (max. 3)
+*Holds the overall ratings of the store
+*Allows for the getting and setting of all above variables
+
+ */
+
 public class Store {
 
     private String storeID,storeName, address, imageURL;

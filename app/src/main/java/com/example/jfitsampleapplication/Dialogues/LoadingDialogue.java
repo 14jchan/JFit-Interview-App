@@ -6,7 +6,14 @@ import android.view.LayoutInflater;
 
 import com.example.jfitsampleapplication.R;
 
-//loading dialogue for all api queries process times
+/*
+@author Jason Chan
+
+Implementable loading dialogue box for any activity. Holds the following capabilities:
+
+*Ability to show and hide all loading dialogues
+*Ability to lock screen while loading dialogue is displayed
+ */
 
 public class LoadingDialogue {
 

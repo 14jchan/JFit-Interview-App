@@ -12,7 +12,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-//This class processes all API Get requests asynchronously and calls an requested method upon completion
+
+/*
+@author Jason Chan
+
+Asyncronous task that preforms GET requests given a url endpoint and a bearer token authorization. Holds the following capabilities:
+
+*Multithreaded request for GET API request
+*Callback to activity method with API response
+ */
+
 public class RESTGetCaller extends AsyncTask<String, String, String> {
     private String URLString = "", result, bearerToken;
     private int returnType;

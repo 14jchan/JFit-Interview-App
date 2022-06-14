@@ -5,16 +5,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.jfitsampleapplication.Depedencies.DBController;
 import com.example.jfitsampleapplication.Depedencies.JSONReader;
-import com.example.jfitsampleapplication.Depedencies.Properties;
 import com.example.jfitsampleapplication.Depedencies.RESTGetCaller;
 import com.example.jfitsampleapplication.Dialogues.LoadingDialogue;
 import com.example.jfitsampleapplication.Objects.Store;
@@ -24,6 +21,14 @@ import com.example.jfitsampleapplication.RecyclerAdapters.StoreRecyclerAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+@author Jason Chan
+
+Main Class for the first business activity. Holds the following requirements:
+
+*Show a list of five cities of your choosing. -> Los Altos, Mountain View, Sunnyvale, Saratoga, Cupertino
+*Clicking on one of these cities will load the second screen -> BusinessActivity
+ */
 public class BusinessActivity extends AppCompatActivity implements StoreRecyclerAdapter.OnStoreListener {
 
     private RecyclerView storeRecyclerView;
@@ -45,14 +50,6 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
             storeList = new LinkedList<>();
         }
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BusinessActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Intent i = getIntent();
         refreshPage = i.getBooleanExtra("refreshPage", true);
         location = i.getStringExtra("TargetCity");
@@ -68,12 +65,23 @@ public class BusinessActivity extends AppCompatActivity implements StoreRecycler
             Log.d("storeListSize" , Integer.toString(storeList.size()));
             setRecyclerAdapter();
         }
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backButtonClicked();
+            }
+        });
+    }
+
+    private void backButtonClicked(){
+        Intent intent = new Intent(BusinessActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     //locks screen with loading dialogue + calls API
     private void startAPICall(String location){
         loadingDialogue.startLoadingDialogue();
-        RESTGetCaller newRequest = new RESTGetCaller("https://api.yelp.com/v3/businesses/search?limit=10&location=" + location, 1, BusinessActivity.this, Properties.YELP_API_TOKEN);
+        RESTGetCaller newRequest = new RESTGetCaller("https://api.yelp.com/v3/businesses/search?limit=10&location=" + location, 1, BusinessActivity.this, getString(R.string.yelp_api_token));
         newRequest.execute();
     }
 
